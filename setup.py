@@ -14,8 +14,11 @@ setup(name="NpzHeader",
       url='https://github.com/ok97465/npzheader',
       description='Viewer header of numpy binary format file',
       keywords=['npz'],
-      packages=['npzviewer'],
+      packages=['npzheader'],
       license='MIT',
       long_description=open('README.md').read(),
-      install_requires=['qtpy', 'qdarkstyle', 'numpy', 'scipy']
+      install_requires=['qtpy', 'qdarkstyle', 'numpy', 'scipy'],
+      entry_points={
+          'console_scripts': ['npz-viewer=npzheader.viewer:run'],
+      }
 )
