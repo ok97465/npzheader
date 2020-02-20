@@ -17,5 +17,5 @@ setup(name="NpzHeader",
       packages=['npzviewer'],
       license='MIT',
       long_description=open('README.md').read(),
-      install_requires=['qtpy', 'qdarkstyle', 'numpy']
+      install_requires=['qtpy', 'qdarkstyle', 'numpy', 'scipy']
 )
