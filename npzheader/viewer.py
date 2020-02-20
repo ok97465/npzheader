@@ -18,7 +18,7 @@ from npzheader.parser import get_headers_of_numpy
 
 # ---- Code
 class HeaderViewer(QMainWindow):
-    """"""
+    """Display information of science data format."""
 
     def __init__(self, path=None):
         super().__init__()
@@ -31,6 +31,8 @@ class HeaderViewer(QMainWindow):
         self.err_label = QLineEdit(self)
         self.err_label.setReadOnly(True)
         self.table_for_info = CustomTable(['name', 'value'], self)
+
+        # widget layout
         vbox = QVBoxLayout()
         vbox.addWidget(self.file_path_label)
         vbox.addWidget(self.table_for_info)
@@ -44,6 +46,7 @@ class HeaderViewer(QMainWindow):
         self.file_path_label.sig_view_path.connect(self.info_update)
 
     def info_update(self, path: str):
+        """Update table from header of file."""
         table = self.table_for_info
         table.setRowCount(0)  # Clear table
 
@@ -73,7 +76,7 @@ class HeaderViewer(QMainWindow):
 
 
 class CustomLabel(QLineEdit):
-    """"""
+    """Support to Drag and drop for files."""
 
     sig_view_path = Signal(str)
 
