@@ -56,7 +56,10 @@ def parse_npy(path: str) -> Dict[str, ItemInfo]:
 
 
 def parse_npz(path: str) -> Dict[str, ItemInfo]:
-    """Parse npz file."""
+    """Parse npz file.
+
+    https://stackoverflow.com/questions/35990775/finding-shape-of-saved-numpy-array-npy-or-npz-without-loading-into-memory/43223420#43223420
+    """
     read_magic = np.lib.format.read_magic
     read_header = np.lib.format._read_array_header
     read_array = np.lib.format.read_array
