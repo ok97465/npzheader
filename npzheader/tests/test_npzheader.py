@@ -4,11 +4,20 @@
 # =============================================================================
 # Local imports
 from npzheader.parser import get_headers_of_numpy, ItemInfo
+from npzheader.viewer import HeaderViewer
 
 
 # =============================================================================
 # ---- Tests
 # =============================================================================
+def test_viewer(qtbot):
+    widget = HeaderViewer('data1.npy')
+    qtbot.addWidget(widget)
+
+    assert widget.table_for_info.item(0, 0).text() == 'data1'
+    assert widget.table_for_info.item(0, 1).text() == '(50,) float64'
+
+
 def test_parse_npy_header():
     ret = get_headers_of_numpy('data1.npy')
 
