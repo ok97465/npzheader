@@ -4,7 +4,7 @@
 import os.path as osp
 import zipfile
 from dataclasses import dataclass
-from typing import List, Union, Dict
+from typing import Union, Dict
 
 
 # Third party imports
