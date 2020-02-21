@@ -3,34 +3,39 @@
 # ---- Import
 # =============================================================================
 # Local imports
-from npzheader.parser import get_headers_of_numpy
+from npzheader.parser import get_headers_of_numpy, ItemInfo
 
 
 # =============================================================================
 # ---- Tests
 # =============================================================================
 def test_parse_npy_header():
-    names, shapes, dtypes, values = get_headers_of_numpy('data1.npy')
+    ret = get_headers_of_numpy('data1.npy')
 
-    assert names == ['data1']
-    assert shapes == [(50,)]
-    assert dtypes == ['float64']
-    assert values == [None]
+    expect = {"data1": ItemInfo((50,), 'float64', None)}
+
+    assert ret == expect
 
 
 def test_parse_npz_header():
-    names, shapes, dtypes, values = get_headers_of_numpy('data1.npz')
+    ret = get_headers_of_numpy('data1.npz')
 
-    assert names == ['val1', 'val2', 'val3', 'val4', 'array1']
-    assert shapes == [(), (), (), (), (50,)]
-    assert dtypes == ['int64', 'float64', 'complex128', '<U7', 'float64']
-    assert values == [-5, -3.0, (1 + 1j), 'dhrwodn', None]
+    expect = {"val1": ItemInfo((), 'int64', -5),
+              "val2": ItemInfo((), 'float64', -3.0),
+              "val3": ItemInfo((), 'complex128', (1 + 1j)),
+              "val4": ItemInfo((), '<U7', 'dhrwodn'),
+              "array1": ItemInfo((50,), 'float64', None)}
+
+    assert ret == expect
 
 
 def test_parse_mat_header():
-    names, shapes, dtypes, values = get_headers_of_numpy('data1.mat')
+    ret = get_headers_of_numpy('data1.mat')
 
-    assert names == ['array1', 'array2', 'val1', 'val2', 'val3']
-    assert shapes == [(3, 5), (1, 100), (1, 1), (1, 1), (1,)]
-    assert dtypes == ['double', 'double', 'double', 'double', 'char']
-    assert values == [None, None, 1, 3.5, 'dhrwodn']
+    expect = {"array1": ItemInfo((3, 5), 'double', None),
+              "array2": ItemInfo((1, 100), 'double', None),
+              "val1": ItemInfo((1, 1), 'double', 1),
+              "val2": ItemInfo((1, 1), 'double', 3.5),
+              "val3": ItemInfo((1,), 'char', 'dhrwodn')}
+
+    assert ret == expect

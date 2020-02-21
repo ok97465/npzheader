@@ -51,19 +51,20 @@ class HeaderViewer(QMainWindow):
         table.setRowCount(0)  # Clear table
 
         try:
-            (name_list, shape_list,
-             dtype_list, value_list) = get_headers_of_numpy(path)
+            headers = get_headers_of_numpy(path)
 
-            table.setRowCount(len(name_list))
-            for idx_row, (name, shape, dtype, value) in \
-                    enumerate(zip_longest(name_list, shape_list,
-                                          dtype_list, value_list)):
+            table.setRowCount(len(headers))
+            for idx_row, (name, info) in enumerate(headers.items()):
                 table.setItem(idx_row, 0, QTableWidgetItem(name))
-                if value:
-                    table.setItem(idx_row, 1, QTableWidgetItem(str(value)))
+
+                if info.value:
+                    table.setItem(
+                        idx_row, 1, QTableWidgetItem(
+                            str(info.value)))
                 else:
-                    table.setItem(idx_row, 1,
-                                  QTableWidgetItem(f'{shape} {dtype}'))
+                    table.setItem(
+                        idx_row, 1, QTableWidgetItem(
+                            f'{info.shape} {info.dtype}'))
             self.err_label.setText("")
         except Exception as e:
             self.err_label.setText(repr(e))
