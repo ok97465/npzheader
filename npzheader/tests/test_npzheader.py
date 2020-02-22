@@ -33,7 +33,8 @@ def test_parse_npz_header():
               "val2": ItemInfo((), 'float64', -3.0),
               "val3": ItemInfo((), 'complex128', (1 + 1j)),
               "val4": ItemInfo((), '<U7', 'dhrwodn'),
-              "array1": ItemInfo((50,), 'float64', None)}
+              "array1": ItemInfo((50,), 'float64', None),
+              "structured_type": ItemInfo((1,), "[('val1', 'i1'), ('val2', '<u2'), ('valf', '<f8'), ('array1', '<f4', (3, 2)), ('array2', '<c16', (5,))]", None)}
 
     assert ret == expect
 
