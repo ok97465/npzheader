@@ -6,7 +6,8 @@ import os.path as osp
 from itertools import zip_longest
 
 # Third party imports
-from qtpy.QtCore import Signal
+from qtpy.QtCore import Signal, QUrl, QMimeData
+from qtpy.QtGui import QDrag
 from qtpy.QtWidgets import (QApplication, QMainWindow, QVBoxLayout,
                             QTableWidget, QWidget, QAbstractItemView,
                             QHeaderView, QTableWidgetItem, QLineEdit)
@@ -49,6 +50,7 @@ class HeaderViewer(QMainWindow):
         """Update table from header of file."""
         table = self.table_for_info
         table.setRowCount(0)  # Clear table
+        table.file_path = path
 
         try:
             headers = get_headers_of_numpy(path)
@@ -110,6 +112,7 @@ class CustomTable(QTableWidget):
     def __init__(self, col_labels, parent):
         super().__init__(parent)
         self.setup(col_labels)
+        self.file_path = None
 
     def setup(self, col_labels):
         # Set read only
@@ -120,9 +123,18 @@ class CustomTable(QTableWidget):
         self.setHorizontalHeaderLabels(col_labels)
         self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
-        # Only one row select
+        # Select single row
         self.setSelectionBehavior(QAbstractItemView.SelectItems)
-        self.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.setDragEnabled(True)
+
+    def startDrag(self, e):
+        data = QMimeData()
+        data.setUrls([QUrl(self.file_path)])
+        drag = QDrag(self)
+        drag.setMimeData(data)
+        drag.exec_()
 
 
 def run():
