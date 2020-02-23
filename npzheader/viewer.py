@@ -90,6 +90,8 @@ class CustomLabel(QLineEdit):
         self.setAcceptDrops(True)
 
     def dragEnterEvent(self, e):
+        """Reimplement Qt method.
+           Inform Qt about the types of data that the widget accepts"""
         source = e.mimeData()
         if source.hasUrls() and len(source.urls()) == 1:
             e.accept()
@@ -97,6 +99,7 @@ class CustomLabel(QLineEdit):
             e.ignore()
 
     def dragMoveEvent(self, e):
+        """Drag and Drop - Move event."""
         source = e.mimeData()
         if source.hasUrls() and len(source.urls()) == 1:
             e.accept()
@@ -104,6 +107,8 @@ class CustomLabel(QLineEdit):
             e.ignore()
 
     def dropEvent(self, e):
+        """Reimplement Qt method.
+           Send signal to viewer"""
         path = e.mimeData().urls()[0].toLocalFile()
         self.sig_view_path.emit(path)
 
@@ -115,6 +120,7 @@ class CustomTable(QTableWidget):
         self.file_path = None
 
     def setup(self, col_labels):
+        """Setup attribute of customtable"""
         # Set read only
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
@@ -130,11 +136,22 @@ class CustomTable(QTableWidget):
         self.setDragEnabled(True)
 
     def startDrag(self, e):
-        data = QMimeData()
-        data.setUrls([QUrl(self.file_path)])
-        drag = QDrag(self)
-        drag.setMimeData(data)
-        drag.exec_()
+        """Reimplement Qt Method - handle drag event"""
+        if isinstance(self.file_path, str) and len(self.file_path) > 4:
+            data = QMimeData()
+            data.setUrls([QUrl(self.file_path)])
+
+            ext = self.file_path[-4:]
+            if ext in [".mat", ".npz"]:
+                idx_rows = set(idx.row() for idx in self.selectedIndexes())
+                variable_names = [self.item(i, 0).text() for i in idx_rows]
+                variabel_names_one_line = ",".join(variable_names)
+                data.setData('text/variable-names',
+                             variabel_names_one_line.encode('utf-8'))
+
+            drag = QDrag(self)
+            drag.setMimeData(data)
+            drag.exec_()
 
 
 def run():
