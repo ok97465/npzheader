@@ -145,9 +145,9 @@ class CustomTable(QTableWidget):
             if ext in [".mat", ".npz"]:
                 idx_rows = set(idx.row() for idx in self.selectedIndexes())
                 variable_names = [self.item(i, 0).text() for i in idx_rows]
-                variabel_names_one_line = ",".join(variable_names)
+                variable_names_one_line = ",".join(variable_names)
                 data.setData('text/variable-names',
-                             variabel_names_one_line.encode('utf-8'))
+                             variable_names_one_line.encode('utf-8'))
 
             drag = QDrag(self)
             drag.setMimeData(data)
