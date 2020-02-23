@@ -98,7 +98,8 @@ def parse_mat(path: str) -> Dict[str, ItemInfo]:
         for name, shape, dtype in mat_infos:
             ret[name] = ItemInfo(shape, dtype, None)
 
-            if shape == (1, 1) or shape == (1,):
+            if ((shape == (1, 1) or shape == (1,))
+                    and str(dtype) != 'struct'):
                 scalar_item_list.append(name)
 
         values = loadmat(path, variable_names=scalar_item_list)

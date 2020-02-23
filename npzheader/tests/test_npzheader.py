@@ -46,6 +46,7 @@ def test_parse_mat_header():
               "array2": ItemInfo((1, 100), 'double', None),
               "val1": ItemInfo((1, 1), 'double', 1),
               "val2": ItemInfo((1, 1), 'double', 3.5),
-              "val3": ItemInfo((1,), 'char', 'dhrwodn')}
+              "val3": ItemInfo((1,), 'char', 'dhrwodn'),
+              "st": ItemInfo((1, 1), 'struct', None)}
 
     assert ret == expect
