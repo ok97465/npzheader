@@ -2,8 +2,9 @@
 # ---- Import
 # Standard library imports
 import sys
+import os
 import os.path as osp
-from itertools import zip_longest
+from urllib.parse import unquote
 
 # Third party imports
 from qtpy.QtCore import Signal, QUrl, QMimeData
@@ -109,8 +110,30 @@ class CustomLabel(QLineEdit):
     def dropEvent(self, e):
         """Reimplement Qt method.
            Send signal to viewer"""
-        path = e.mimeData().urls()[0].toLocalFile()
+        # path = e.mimeData().urls()[0].toLocalFile()
+        path_url = e.mimeData().urls()[0]
+        path = _process_mime_path(unquote(path_url).toString(), None)
         self.sig_view_path.emit(path)
+
+
+def _process_mime_path(path, extlist):
+    """Convert url of mimedata to string
+    Code From spyder ide
+    """
+    if path.startswith(r"file://"):
+        if os.name == 'nt':
+            # On Windows platforms, a local path reads: file:///c:/...
+            # and a UNC based path reads like: file://server/share
+            if path.startswith(r"file:///"):  # this is a local path
+                path = path[8:]
+            else:  # this is a unc path
+                path = path[5:]
+        else:
+            path = path[7:]
+    path = path.replace('\\', os.sep)  # Transforming backslashes
+    if osp.exists(path):
+        if extlist is None or osp.splitext(path)[1] in extlist:
+            return path
 
 
 class CustomTable(QTableWidget):
