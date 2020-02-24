@@ -112,7 +112,7 @@ class CustomLabel(QLineEdit):
            Send signal to viewer"""
         # path = e.mimeData().urls()[0].toLocalFile()
         path_url = e.mimeData().urls()[0]
-        path = _process_mime_path(unquote(path_url).toString(), None)
+        path = _process_mime_path(unquote(path_url.toString()), None)
         self.sig_view_path.emit(path)
 
 
