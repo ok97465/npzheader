@@ -11,11 +11,21 @@ from npzheader.viewer import HeaderViewer
 # ---- Tests
 # =============================================================================
 def test_viewer(qtbot):
-    widget = HeaderViewer('data1.npy')
+    widget = HeaderViewer('data2.npz')
     qtbot.addWidget(widget)
 
-    assert widget.table_for_info.item(0, 0).text() == 'data1'
-    assert widget.table_for_info.item(0, 1).text() == '(50,) float64'
+    assert widget.table_for_info.item(0, 0).text() == 'val1'
+    assert widget.table_for_info.item(0, 1).text() == '1'
+    assert widget.table_for_info.item(1, 0).text() == 'val2'
+    assert widget.table_for_info.item(1, 1).text() == 'False'
+    assert widget.table_for_info.item(2, 0).text() == 'val3'
+    assert widget.table_for_info.item(2, 1).text() == '0'
+    assert widget.table_for_info.item(3, 0).text() == 'val4'
+    assert widget.table_for_info.item(3, 1).text() == '5.5'
+    assert widget.table_for_info.item(4, 0).text() == 'utf'
+    assert widget.table_for_info.item(4, 1).text() == 'dhrwodn'
+    assert widget.table_for_info.item(5, 0).text() == 'arr'
+    assert widget.table_for_info.item(5, 1).text() == '(3,) int64'
 
 
 def test_parse_npy_header():

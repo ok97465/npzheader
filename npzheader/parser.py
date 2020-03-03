@@ -77,7 +77,8 @@ def parse_npz(path: str) -> Dict[str, ItemInfo]:
                 shape, _, dtype = read_header(fp_npy, ver)
 
                 value = None
-                prefix_available = ('int', 'float', 'complex', '<U', '>U')
+                prefix_available = ('int', 'float', 'complex', '<U', '>U',
+                                    'bool')
                 if not shape and str(dtype).startswith(prefix_available):
                     fp_npy.seek(0, 0)
                     value = read_array(fp_npy).item()

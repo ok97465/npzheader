@@ -60,7 +60,7 @@ class HeaderViewer(QMainWindow):
             for idx_row, (name, info) in enumerate(headers.items()):
                 table.setItem(idx_row, 0, QTableWidgetItem(name))
 
-                if info.value:
+                if info.value is not None:
                     table.setItem(
                         idx_row, 1, QTableWidgetItem(
                             str(info.value)))
