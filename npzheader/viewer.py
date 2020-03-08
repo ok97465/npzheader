@@ -7,6 +7,7 @@ import os.path as osp
 from urllib.parse import unquote
 
 # Third party imports
+from qtpy import QtCore
 from qtpy.QtCore import Signal, QUrl, QMimeData
 from qtpy.QtGui import QDrag
 from qtpy.QtWidgets import (QApplication, QMainWindow, QVBoxLayout,
@@ -17,6 +18,8 @@ import qdarkstyle
 # Local imports
 from npzheader.parser import get_headers_of_numpy
 
+# QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)  # enable highdpi scaling
+# QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)  # use highdpi icons
 
 # ---- Code
 class HeaderViewer(QMainWindow):
